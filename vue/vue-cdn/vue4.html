@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Vue4</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <nav :class="[`navbar navbar-expand-sm navbar-${theme} bg-${theme}`]">
+      <div class="container-fluid">
+        <a class="navbar-brand text-primary" href="#">My Vue</a>
+        <button
+          class="navbar-toggler bg-primary"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li v-for="(page, index) in pages" class="nav-item" :key="index">
+              <a
+                class="nav-link text-primary"
+                :class="{active: activePage == index}"
+                aria-current="page"
+                :href="page.link.url"
+                :title="`This link goes to the ${page.link.text} page`"
+                @click.prevent="activePage = index"
+                >{{ page.link.text }}</a
+              >
+            </li>
+          </ul>
+          <form class="d-flex ms-auto">
+            <button class="btn btn-primary" @click.prevent="changeTheme()">Theme</button>
+          </form>
+        </div>
+      </div>
+    </nav>
+    <div id="content" class="container">
+      <h1>{{ pages[activePage].pageTitle}}</h1>
+      <p>{{ pages[activePage].content }}</p>
+    </div>
+
+    <script>
+      Vue.createApp({
+        data() {
+          return {
+            activePage: 0,
+            theme: "light",
+            pages: [
+              {
+                link: { text: "Home", url: "home.html" },
+                pageTitle: "Home Page",
+                content: "This is the home content",
+              },
+              {
+                link: { text: "About", url: "about.html" },
+                pageTitle: "About Page",
+                content: "This is the about content",
+              },
+              {
+                link: { text: "Contact", url: "contact.html" },
+                pageTitle: "Contact Page",
+                content: "This is the contact content",
+              },
+            ],
+          };
+        },
+        methods: {
+          changeTheme() {
+            let theme = "light";
+            if (this.theme == "light") {
+              theme = "dark";
+            }
+            this.theme = theme;
+          },
+        },
+      }).mount("body");
+    </script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
